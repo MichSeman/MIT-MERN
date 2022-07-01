@@ -1,39 +1,27 @@
-var express = require('express');
-var app     = express();
-var cors    = require('cors');
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Header from './components/Header'
+import Dashboard from './pages/Dashboard'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
-//used to serve static files from public directory
-app.use(express.static('public'));
-app.use(cors());
-
-
-function Spa() {
+function App() {
   return (
-    <HashRouter>
-      <div>
-        <NavBar/>        
-        <UserContext.Provider value={{users:[{name:'abel',email:'abel@mit.edu',password:'secret',balance:100}]}}>
-          <div className="container" style={{padding: "20px"}}>
-            <Route path="/" exact component={Home} />
-            <Route path="/CreateAccount/" component={CreateAccount} />
-            <Route path="/login/" component={Login} />
-            <Route path="/deposit/" component={Deposit} />
-            <Route path="/withdraw/" component={Withdraw} />
-            {/* <Route path="/transactions/" component={Transactions} /> */}
-            <Route path="/balance/" component={Balance} />
-            <Route path="/alldata/" component={AllData} />
-          </div>
-        </UserContext.Provider>
-      </div>
-    </HashRouter>
-  );
+    <>
+      <Router>
+        <div className='container'>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Dashboard />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Routes>
+        </div>
+      </Router>
+      <ToastContainer />
+    </>
+  )
 }
 
-ReactDOM.render(
-  <Spa/>,
-  document.getElementById('root')
-);
-
-var port = 3000;
-app.listen(port);
-console.log('Running on port:' + port);
+export default App
